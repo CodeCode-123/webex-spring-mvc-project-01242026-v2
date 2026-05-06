@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="f" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,11 +11,11 @@
 
 	<form action="save" method="POST">
 		<p>
-			First Name: <input type="text" name="fname" id="fname"
+			First Name: <input type="text" name="first-name" id="first-name"
 				placeholder="Enter First Name" required>
 		</p>
 		<p>
-			Last Name: <input type="text" name="lname" id="lname"
+			Last Name: <input type="text" name="last-name" id="last-name"
 				placeholder="Enter Last Name" required>
 		</p>
 		<p>

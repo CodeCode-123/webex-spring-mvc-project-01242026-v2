@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +10,10 @@
 </head>
 <body>
 <h1>Please Confirm</h1>
-<p>Name: ${name}</p>
-<p>Country: ${country}</p>
+<p>Name: ${users.firstName} ${users.lastName}</p>
+<p>Gender: ${users.gender}</p>
+<p>Country: ${users.country}</p>
+<c:set var="languages" value="${fn:join(users.language, ', ')}" />
+<p>Languages: ${languages}</p>
 </body>
 </html>
