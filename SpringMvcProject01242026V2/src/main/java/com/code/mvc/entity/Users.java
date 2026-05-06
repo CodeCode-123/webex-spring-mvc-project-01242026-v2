@@ -31,6 +31,8 @@ public class Users {
 	private String country;
 	@Column(name="password", length=20, nullable=false)
 	private String password;
+	@Column(name="role", length=20, nullable=false)
+	private String role="Customer";
 	
 	//getter and setter
 	public int getId() {
@@ -81,12 +83,17 @@ public class Users {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
 	//toString() method
 	@Override
 	public String toString() {
 		return "Users [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", gender=" + gender
 				+ ", language=" + Arrays.toString(language) + ", emailId=" + emailId + ", country=" + country
-				+ ", password=" + password + "]";
+				+ ", password=" + password + ", role=" + role + "]";
 	}
 }

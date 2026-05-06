@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,10 +14,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.code.mvc.entity.Users;
+import com.code.mvc.service.IUserService;
 
 @Controller
 @RequestMapping("/users")
 public class UsersController {
+	//add dependency
+	@Autowired
+	private IUserService iUserService;
+	
+	@RequestMapping("/")
+	public ModelAndView getRoot(Model model) {
+		//get all the users
+		List<Users> lstusers = iUserService.getAll();
+		//add attribute to the model
+		model.addAttribute("lstusers", lstusers);
+		return new ModelAndView("dashboard","",model);	
+	}
 	
 	@RequestMapping("/registration")
 	public ModelAndView getRegistration(Model model) {
@@ -29,9 +43,12 @@ public class UsersController {
 	public ModelAndView save1Registration(@ModelAttribute("users") Users users, Model model) {
 		System.out.println(users.toString());
 		// set values to the model object
+		users.setRole("Admin");
 		model.addAttribute("users", users);
-		// return the view
-		return new ModelAndView("confirm","",model);
+		//save the object
+		iUserService.addUser(users);
+		// redirect to the dashboard
+		return new ModelAndView("redirect:/");
 	}
 	
 	@RequestMapping(value="/save", method=RequestMethod.POST)
