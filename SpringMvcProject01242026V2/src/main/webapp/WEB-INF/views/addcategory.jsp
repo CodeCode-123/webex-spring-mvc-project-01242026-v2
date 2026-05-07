@@ -1,0 +1,22 @@
+<!-- Adminheader -->
+<%@ include file="adminheader.jsp" %>
+<!-- End of Adminheader -->
+
+<!-- Add Category -->
+<h2>Category</h2>
+<f:form action="savecategory" method="POST" modelAttribute="category">
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Category Name</label>
+    <f:input path="categoryName" class="form-control"/>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Category Description</label>
+    <f:input path="categoryDesc" class="form-control"/>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</f:form>
+<!-- End of Add Category -->
+
+<!-- Footer -->
+<%@ include file="footer.jsp" %>
+<!-- End of Footer -->
