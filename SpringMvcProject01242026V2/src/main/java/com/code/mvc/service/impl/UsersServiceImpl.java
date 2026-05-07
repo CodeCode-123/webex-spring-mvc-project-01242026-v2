@@ -7,15 +7,15 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.code.mvc.dao.IUserDao;
+import com.code.mvc.dao.IUsersDao;
 import com.code.mvc.entity.Users;
-import com.code.mvc.service.IUserService;
+import com.code.mvc.service.IUsersService;
 
 @Service
 @Transactional
-public class UserServiceImpl implements IUserService {
+public class UsersServiceImpl implements IUsersService {
 	@Autowired
-	private IUserDao iUserDao;
+	private IUsersDao iUserDao;
 
 	@Override
 	public int addUser(Users users) {

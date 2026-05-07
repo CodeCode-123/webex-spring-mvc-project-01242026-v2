@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 @Entity
@@ -29,6 +30,9 @@ public class Users {
 	private String emailId;
 	@Column(name="country", length=50, nullable=false)
 	private String country;
+	@Lob
+	@Column(name="image_data")
+	private byte[] imagedata;
 	@Column(name="password", length=20, nullable=false)
 	private String password;
 	@Column(name="role", length=20, nullable=false)
@@ -76,6 +80,12 @@ public class Users {
 	}
 	public void setCountry(String country) {
 		this.country = country;
+	}
+	public byte[] getImagedata() {
+		return imagedata;
+	}
+	public void setImagedata(byte[] imagedata) {
+		this.imagedata = imagedata;
 	}
 	public String getPassword() {
 		return password;

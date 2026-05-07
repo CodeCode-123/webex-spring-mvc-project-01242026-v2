@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.code.mvc.entity.Users;
 
-public interface IUserDao {
+public interface IUsersDao {
 	//create the method for the users
 	public int addUser(Users users);
 	public int updateUser(Users users);

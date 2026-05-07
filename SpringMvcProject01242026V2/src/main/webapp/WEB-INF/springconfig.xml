@@ -59,4 +59,11 @@
   </bean>
   <!-- Enables @Transactional support, scan @Transactional classes  -->
   <tx:annotation-driven transaction-manager="transactionManager" />
+  <!-- image configuration and upload -->
+  <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- max upload size in bytes -->
+        <property name="maxUploadSize" value="20971520" /> <!-- 20MB -->
+        <!-- max size of file in memory (in bytes) -->
+        <property name="maxInMemorySize" value="1048576" /> <!-- 1MB -->
+   </bean>
 </beans>

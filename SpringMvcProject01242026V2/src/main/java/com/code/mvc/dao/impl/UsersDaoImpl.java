@@ -7,11 +7,11 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.code.mvc.dao.IUserDao;
+import com.code.mvc.dao.IUsersDao;
 import com.code.mvc.entity.Users;
 
 @Repository
-public class UserDaoImpl implements IUserDao{
+public class UsersDaoImpl implements IUsersDao{
 	//add the dependency
 	@Autowired
 	SessionFactory sessionFactory;

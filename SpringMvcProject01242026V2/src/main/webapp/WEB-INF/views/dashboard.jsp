@@ -81,11 +81,12 @@
     </ul>
     </div>
     </nav>
-    <!-- End of adminheader -->
     
-    <!-- Dashboard -->
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <br>
+<!-- End of adminheader -->
+      
+<!-- Dashboard -->
       <h2>Manage Users</h2>
       <p align="right">
         <a href="registration"><button class="primary">Add new Users</button></a>
@@ -108,25 +109,25 @@
             <c:forEach var="users" items="${lstusers}">
               <tr>
                 <td>&nbsp;</td>
-                <td><img src="#" width="50px" height="50px"/></td>
+                <td><img src="image/${users.id}" width="50px" height="50px"/></td>
                 <td>${users.firstName} ${users.lastName}</td>
                 <td>${users.gender }</td>
                 <td>${users.country }</td>
-                <td><c:forEach var="lang" items="${users.language }">${lang } &nbsp;</c:forEach></td>
+                <td><c:forEach var="lang" items="${users.language }">${lang}&nbsp;</c:forEach></td>
                 <td>${users.emailId }</td>
-                <td><a href="edit/${users.id }">Edit</a> | <a href="delete/${user.id }" 
+                <td><a href="edit/${users.id }">Edit</a> | <a href="delete/${users.id }" 
                        onclick='return confirm("Are you sure you want to delete this Record???")'>Delete</a></td>
               </tr>
             </c:forEach>
           </tbody>
         </table>
-      </div>    
+      </div>
+<!-- End of dashboard -->    
+
+<!-- footer -->
     </main>
   </div>
 </div>
-<!-- End of dashboard -->
-
-<!-- footer -->
 <script src="${contextPath }/resources/admincss/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

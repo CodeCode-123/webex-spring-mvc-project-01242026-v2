@@ -88,6 +88,22 @@
 			<artifactId>spring-dotenv</artifactId>
 			<version>2.5.3</version>
 		</dependency>
+		<!-- Source:
+		https://mvnrepository.com/artifact/commons-configuration/commons-configuration -->
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<version>1.9</version>
+			<scope>compile</scope>
+		</dependency>
+		<!-- Source:
+		https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.4</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<repositories>
