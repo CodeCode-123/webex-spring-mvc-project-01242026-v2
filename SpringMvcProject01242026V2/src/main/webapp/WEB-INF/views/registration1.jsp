@@ -8,7 +8,7 @@
 <!-- End of Adminheader -->
 
 <!-- User Registration -->
-	<h2>User Registration</h2>
+	<h2>Admin User Registration</h2>
 
 	<f:form action="save1" method="POST" modelAttribute="users" enctype="multipart/form-data">
 		<div class="mb-3">

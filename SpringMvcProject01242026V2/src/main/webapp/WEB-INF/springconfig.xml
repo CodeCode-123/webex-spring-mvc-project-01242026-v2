@@ -53,6 +53,10 @@
   </property>
   <property name="packagesToScan" value="com.code.mvc.entity"></property>
 </bean>
+<!-- Add AdminInterceptor -->
+<mvc:interceptors>
+  <bean class="com.code.mvc.component.AdminInterceptor" />
+</mvc:interceptors>
 <!-- Transaction -->
   <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
     <property name="sessionFactory" ref="sessionFactory"/>

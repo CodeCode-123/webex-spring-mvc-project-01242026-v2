@@ -36,8 +36,8 @@ public class AdminController {
 		Users users = iUsersService.getUserAuthentication(username, password);
 		if (users != null) {
 			if (users.getRole().equals("Admin")) {
-				//create 
-				session.setAttribute("users", users);
+				//create the session object, and set attribute of adminusers
+				session.setAttribute("adminusers", users);
 				return new ModelAndView("redirect:/admin/");
 			}
 		}
@@ -45,5 +45,11 @@ public class AdminController {
 		model.addAttribute("errmsg", msg);
 		return new ModelAndView("adminlogin", "", model);
 	}
-
+	
+	@RequestMapping("/logout")
+	public ModelAndView logout(HttpSession session) {
+		//invalidate session and return login page
+		session.invalidate();
+		return new ModelAndView("redirect:/admin/login");
+	}
 }
