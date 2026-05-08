@@ -79,10 +79,15 @@ public class UsersDaoImpl implements IUsersDao{
 		//create the query
 		String hql = "SELECT u FROM Users u WHERE u.emailId=:email AND u.password=:pwd";
 		//retrieve the object
-		return session.createQuery(hql, Users.class)
+		List<Users> lstusers = session.createQuery(hql, Users.class)
 				      .setParameter("email", emailId)
 				      .setParameter("pwd", password)
-				      .getSingleResult();
+				      .getResultList();
+		//don't return single result, if not found will throw exception
+		if (lstusers.size() > 0) {
+			return lstusers.get(0);
+		}
+		return null;
 	}
 
 	@Override

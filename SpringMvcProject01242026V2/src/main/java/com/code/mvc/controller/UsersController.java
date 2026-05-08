@@ -63,7 +63,7 @@ public class UsersController {
 		//save the object
 		iUsersService.addUser(users);
 		// redirect to the dashboard
-		return new ModelAndView("redirect:/users/");
+		return new ModelAndView("redirect:/admin/users/");
 	}
 	
 	@RequestMapping("/edit/{id}")
@@ -110,7 +110,7 @@ public class UsersController {
 		users.setLastName(usersDto.getLastName());
 		//save the updated users to the database
 		iUsersService.updateUser(users);
-		return new ModelAndView("redirect:/users/");
+		return new ModelAndView("redirect:/admin/users/");
 	}
 	
 	@RequestMapping("/delete/{id}")
@@ -123,7 +123,7 @@ public class UsersController {
 		}
 		//delete the users and return the dashboard
 		iUsersService.deleteUser(id);
-		return new ModelAndView("redirect:/users/");
+		return new ModelAndView("redirect:/admin/users/");
 	}
 	
 	@RequestMapping(value="/save", method=RequestMethod.POST)

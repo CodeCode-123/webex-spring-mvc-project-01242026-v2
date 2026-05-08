@@ -8,7 +8,7 @@
 <!-- End of Adminheader -->
 
 <!-- Manage Category -->
-    <h2>Manage Category</h2>
+    <h2>Category</h2>
     <p align="right"><a href="add"><button class="btn btn-primary">Add New Category</button></a></p>
     <div class="table-responsive">
       <table class="table table-striped table-sm">
@@ -28,8 +28,7 @@
               <td>${category.categoryDesc }</td>
               <td>
                 <a href="edit/${category.categoryId }">
-                  <img src="../../resources/svg/pencil-fill.svg" alt="edit"/>
-                </a>&nbsp; | &nbsp;
+                  <img src="../../resources/svg/pencil-fill.svg" alt="edit"/></a>&nbsp; |&nbsp;
                 <a href="delete/${category.categoryId }" 
                    onclick="return confirm('Are you sure you want to delete this record?')">
                   <img src="../../resources/svg/trash-fill.svg" alt="delete" />                

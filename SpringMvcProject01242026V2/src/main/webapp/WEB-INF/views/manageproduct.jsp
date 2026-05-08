@@ -8,7 +8,7 @@
 <!-- End of Adminheader -->
 
 <!-- Manage Product -->
-    <h2>Manage Product</h2>
+    <h2>Product</h2>
     <p align="right"><a href="add"><button class="btn btn-primary">Add New Product</button></a></p>
     <div class="table-responsive">
       <table class="table table-striped table-sm">
@@ -30,8 +30,7 @@
               <td>${item.itemPrice }</td>
               <td>
                 <a href="edit/${item.itemId }">
-                  <img src="../../resources/svg/pencil-fill.svg" alt="edit"/>
-                </a>&nbsp; | &nbsp;
+                  <img src="../../resources/svg/pencil-fill.svg" alt="edit"/></a>&nbsp; |&nbsp;
                 <a href="delete/${item.itemId }" onclick="return confirm('Are you sure you want to delete this record?')">
                   <img src="../../resources/svg/trash-fill.svg" alt="delete" />
                 </a>

@@ -11,6 +11,7 @@
 <h2>Category</h2>
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />
 <f:form action="${contextPath }/admin/category/editcategory" method="POST" modelAttribute="category">
+  <p><f:hidden path="categoryId"/></p>
   <div class="mb-3">
     <label for="exampleInputEmail1" class="form-label">Category Name</label>
     <f:input path="categoryName" class="form-control"/>

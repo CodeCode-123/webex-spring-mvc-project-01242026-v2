@@ -87,9 +87,14 @@ public class CategoryDaoImpl implements ICategoryDao{
 		//create hql to retrieve category
 		String hql="FROM Category c WHERE c.categoryName=:data";
 		//retrieve category from the database and return
-		return session.createQuery(hql, Category.class)
+		List<Category> categories = session.createQuery(hql, Category.class)
 				      .setParameter("data", catname)
-				      .getSingleResult();
+				      .getResultList();
+		//don't use .getSingleResult(), if not found will throw exception
+		if (categories.size() > 0) {
+			return categories.get(0);
+		}
+		return null;
 	}
 
 	@Override

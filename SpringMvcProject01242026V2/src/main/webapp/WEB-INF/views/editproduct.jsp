@@ -12,6 +12,7 @@
     <c:set var="contextPath" value="${pageContext.request.contextPath }" />
     <!-- modelAttribute set to be item -->
     <f:form action="${contextPath }/admin/item/editproduct" method="POST" modelAttribute="item" enctype="multipart/form-data">
+      <p><f:hidden path="itemId"/></p>
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Select Category</label>
         <f:select path="category.categoryId" class="form-control">

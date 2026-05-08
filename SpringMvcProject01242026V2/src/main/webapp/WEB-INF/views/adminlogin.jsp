@@ -28,7 +28,7 @@
 			</tr>
 			<tr>
 			    <td colspan="2">
-			      <div class="err">${error}</div>
+			      <div class="err">${errmsg}</div>
 			    </td>
 			</tr>
 			<tr>

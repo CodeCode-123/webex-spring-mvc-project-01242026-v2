@@ -10,7 +10,7 @@
 <!-- Edit Registration -->
 	<h1>Edit Registration</h1>
 	<c:set var="contextPath" value="${pageContext.request.contextPath }" />
-	<f:form action="${contextPath}/users/editsave" method="POST" modelAttribute="users" enctype="multipart/form-data">
+	<f:form action="${contextPath}/admin/users/editsave" method="POST" modelAttribute="users" enctype="multipart/form-data">
 	<p><f:hidden path="id"/></p>
 		<p>
 			First Name: <f:input path="firstName" placeholder="Enter First Name" required="true" />
