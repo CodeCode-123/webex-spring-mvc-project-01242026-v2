@@ -34,7 +34,7 @@ public class HomeController {
 			return new ModelAndView("dashboard", "", model);
 		}
 		String msg = "Invalid User name & Password";
-		model.addAttribute("error", msg);
+		model.addAttribute("errmsg", msg);
 		return new ModelAndView("login", "", model);
 	}
 }

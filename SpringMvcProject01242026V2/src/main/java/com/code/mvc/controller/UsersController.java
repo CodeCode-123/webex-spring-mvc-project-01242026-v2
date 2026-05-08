@@ -25,7 +25,7 @@ import com.code.mvc.entity.Users;
 import com.code.mvc.service.IUsersService;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/admin/users")
 public class UsersController {
 	//add dependency
 	@Autowired
