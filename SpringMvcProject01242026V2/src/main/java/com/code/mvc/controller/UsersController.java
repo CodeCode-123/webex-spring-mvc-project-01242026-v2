@@ -37,7 +37,7 @@ public class UsersController {
 		List<Users> lstusers = iUsersService.getAll();
 		//add attribute to the model
 		model.addAttribute("lstusers", lstusers);
-		return new ModelAndView("dashboard","",model);	
+		return new ModelAndView("manageusers","",model);	
 	}
 	
 	@RequestMapping("/registration")
@@ -76,31 +76,21 @@ public class UsersController {
 		UsersDto usersDto = new UsersDto();
 		//copy properties from users to usersDto, copy null values by default
 		BeanUtils.copyProperties(users, usersDto);
-//		usersDto.setCountry(users.getCountry());
-//		usersDto.setFirstName(users.getFirstName());
-//		usersDto.setGender(users.getGender());
-//		usersDto.setId(users.getId());
-//		usersDto.setLanguage(users.getLanguage());
-//		usersDto.setLastName(users.getLastName());
-//		usersDto.setImagedata(users.getImagedata());
 		model.addAttribute("users", usersDto);
 		return new ModelAndView("editregistration", "", model);
 	}
 	
 	@RequestMapping(value="/editsave", method=RequestMethod.POST)
 	public ModelAndView saveEditRegistration(@ModelAttribute("users") UsersDto usersDto, 
-			@RequestParam CommonsMultipartFile[] imagefile) throws Exception {
+			@RequestParam CommonsMultipartFile imagefile) throws Exception {
 		int id = usersDto.getId();
 		Users users = iUsersService.getUserById(id);
 		if (users == null) {
 			throw new Exception("Not Found");
 		}
-		if (imagefile != null && imagefile.length > 0) {
-			for (CommonsMultipartFile fileup: imagefile) {
-				//System.out.println("File Name: " + fileup.getOriginalFilename());
-				//convert the image to bytes
-				users.setImagedata(fileup.getBytes());
-			}
+        //assume only upload one file/photo
+		if (imagefile != null) {
+			users.setImagedata(imagefile.getBytes());
 		}
 		//don't use BeanUtils.copyProperties() as the null values (email, password) will be copied by default
 		users.setCountry(usersDto.getCountry());
@@ -126,38 +116,6 @@ public class UsersController {
 		return new ModelAndView("redirect:/admin/users/");
 	}
 	
-	@RequestMapping(value="/save", method=RequestMethod.POST)
-	public ModelAndView saveRegistration(HttpServletRequest request, Model model) {
-		String firstName = request.getParameter("first-name");
-		String lastName = request.getParameter("last-name");
-		String country = request.getParameter("country");
-		String gender = request.getParameter("gender");
-		List<String> langs = new ArrayList<>();
-		if (request.getParameter("lang1") != null) {
-			langs.add(request.getParameter("lang1"));
-		}
-		if (request.getParameter("lang2") != null) {
-			langs.add(request.getParameter("lang2"));
-		}
-		if (request.getParameter("lang3") != null) {
-			langs.add(request.getParameter("lang3"));
-		}
-		String languages = "";
-		if (langs.size() > 0) {
-			languages = String.join(",", langs);
-		}
-		String emailId = request.getParameter("email-id");
-		String password = request.getParameter("password");
-		System.out.println("Name: " + firstName + " " + lastName);
-		System.out.println("Country: " + country);
-		System.out.println("Gender: " + gender);
-		System.out.println("Languages: " + languages);
-		// set values to the model object
-		model.addAttribute("name", firstName+" "+lastName);
-		model.addAttribute("country", country);
-		// return the view
-		return new ModelAndView("confirm","",model);
-	}
 	//get the image
 	@RequestMapping(value="/image/{id}")
 	public void getImage(@PathVariable("id") int id, HttpServletResponse response) throws IOException {
@@ -171,4 +129,5 @@ public class UsersController {
 		}
 
 	}
+	
 }

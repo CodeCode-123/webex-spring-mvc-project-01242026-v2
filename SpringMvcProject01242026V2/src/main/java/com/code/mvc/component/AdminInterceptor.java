@@ -26,6 +26,7 @@ public class AdminInterceptor implements HandlerInterceptor {
 			path.equals("/admin/login/") ||
 			path.equals("/admin/authentication") ||
 			path.equals("/admin/users/registration") ||
+			path.equals("/admin/users/save1") ||
 			path.equals("/admin/logout")) {
 			return true;
 		}

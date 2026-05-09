@@ -51,13 +51,12 @@ public class ItemController {
 	
 	@RequestMapping(value="/save", method=RequestMethod.POST)
 	public ModelAndView saveItem(@ModelAttribute("item") Item item,
-			@RequestParam("photo") CommonsMultipartFile[] photo, Model model) throws Exception {
+			@RequestParam("photo") CommonsMultipartFile photo, Model model) throws Exception {
 		try {
 			//if photo is not null, item setImagedata to be photo
-			if (photo != null && photo.length > 0) {
-				for (CommonsMultipartFile fileup: photo) {
-					item.setImagedata(fileup.getBytes());
-				}
+			//assume only upload one file/photo
+			if (photo != null) {
+				item.setImagedata(photo.getBytes());
 			}
 			//add or update item to the database
 			if (item.getItemId() == 0) {
