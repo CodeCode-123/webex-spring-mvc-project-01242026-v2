@@ -17,14 +17,14 @@ a {
 	color: black;
 	z-index: 2;
 	width: 100%;
-	background:#b80818
+	background:#b80818;
 }
 .bg-color {
 	background:#b80818;
 }
 .main-section {
-	padding-top:92px;
-	padding-bottom:92px;
+	padding-top:20px;
+	padding-bottom:20px;
 }
 /**************** NAVBAR SECTION NAVBAR SECTION NAVBAR SECTION NAVBAR SECTION NAVBAR SECTION ****************/
 .navbar-brand img {
