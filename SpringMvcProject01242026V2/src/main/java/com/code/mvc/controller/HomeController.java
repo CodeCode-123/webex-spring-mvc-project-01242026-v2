@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.code.mvc.entity.Category;
@@ -41,13 +42,8 @@ public class HomeController {
 		return new ModelAndView("home", "", model);
 	}
 	
-	@RequestMapping("/carts")
-	public ModelAndView getCarts(Model model) {
-		return new ModelAndView("carts");
-	}
-	
 	//request the cart by id
-	@RequestMapping("/carts/{id}")
+	@RequestMapping("/item/cart/{id}")
 	public ModelAndView addToCart(@PathVariable("id") int id, Model model, HttpSession session) {
 		//get the item by id;
 		Item item = iItemService.getById(id);
@@ -74,6 +70,43 @@ public class HomeController {
 			return new ModelAndView("carts", "", model);
 		}
 		return new ModelAndView("redirect:/");
+	}
+	
+	//request the cart by id
+	@RequestMapping(value="/item/cart/update", method=RequestMethod.POST)
+	public ModelAndView updateCart(HttpServletRequest request, Model model, HttpSession session) {
+		int id = Integer.parseInt(request.getParameter("itemId"));
+		int qty = Integer.parseInt(request.getParameter("qty"));
+		//check cartCollection
+		CartCollection cartCollection = (CartCollection) session.getAttribute("cartCollection");
+		if (cartCollection == null) {
+			cartCollection = new CartCollection();
+		}
+		Cart cart = cartCollection.getCartById(id);
+		if (cart != null) {
+			cart.setQty(qty);
+			//update the cart
+			cartCollection.updateCart(cart);
+			session.setAttribute("cartCollection", cartCollection);
+			model.addAttribute("totalAmount", cartCollection.getTotalAmount());
+			model.addAttribute("carts", cartCollection.getAll());
+			return new ModelAndView("carts", "", model);
+		}
+		return new ModelAndView("redirect:/");
+	}
+	
+	//delete the cart by id
+	@RequestMapping("/item/cart/delete/{id}")
+	public ModelAndView deleteCartById(@PathVariable("id") int id, HttpSession session, Model model) {
+		CartCollection cartCollection = (CartCollection) session.getAttribute("cartCollection");
+		if (cartCollection == null) {
+			cartCollection = new CartCollection();
+		}
+		cartCollection.deleteFromCart(id);
+		session.setAttribute("cartCollection", cartCollection);
+		model.addAttribute("totalAmount", cartCollection.getTotalAmount());
+		model.addAttribute("carts", cartCollection.getAll());
+		return new ModelAndView("carts", "", model);
 	}
 	
 	@RequestMapping(value="/login")

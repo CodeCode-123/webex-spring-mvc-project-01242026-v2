@@ -41,9 +41,9 @@
               <tr>
                 <td><img src="${contextPath }/image/${item.itemId}" width="50px" height="50px"/></td>
                 <td>${item.itemName }</td>
-                <td>${item.itemPrice }</td>
+                <td>$ ${item.price }</td>
                 <td><input type="number" name="qty" id="qty" value="${item.qty }"/></td>
-                <td>${item.amount }</td>
+                <td>$ ${item.amount }</td>
                 <td>
                   <input type="hidden" value="${item.itemId }" name="itemId" id="itemId"/>
                   <button type="submit" class="primary">
@@ -62,7 +62,7 @@
           </c:forEach>
           <tr>
             <td colspan="4"><h3>Total Amount</h3></td>
-            <td align="left"><h3>${totalAmount }</h3></td>
+            <td align="left"><h3>$ ${totalAmount }</h3></td>
             <td>&nbsp;</td>
           </tr>
           <tr>

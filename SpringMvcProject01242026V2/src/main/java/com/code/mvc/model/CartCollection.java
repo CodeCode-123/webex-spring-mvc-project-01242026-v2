@@ -47,7 +47,9 @@ public class CartCollection {
 		for (Cart item2: items) {
 			//if found by itemId, remove it, and return
 			if (item2.getItemId() == itemId) {
-				items.remove(itemId);
+				//remove the item2 not the id, 
+				//otherwise the array list will remove item by index
+				items.remove(item2);
 				return true;
 			}
 		}
@@ -55,7 +57,7 @@ public class CartCollection {
 		return false;
 	}
 	
-	//get item by Id
+	//get cart by Id
 	public Cart getCartById(int itemId) {
 		for (Cart item2: items) {
 			//if found, return the item
@@ -67,7 +69,7 @@ public class CartCollection {
 		return null;
 	}
 	
-	//get all items
+	//get all carts
 	public List<Cart> getAll() {
 		return items;
 	}
@@ -77,7 +79,7 @@ public class CartCollection {
 		return items.size();
 	}
 	
-	//get total amount/price of items
+	//get total amount/price of carts
 	public double getTotalAmount() {
 		double totalAmount = 0;
 		for (Cart item2: items) {
