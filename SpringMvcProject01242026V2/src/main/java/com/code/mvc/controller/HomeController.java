@@ -2,6 +2,7 @@ package com.code.mvc.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,17 +12,26 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.code.mvc.entity.Category;
 import com.code.mvc.entity.Item;
+import com.code.mvc.entity.ItemOrder;
+import com.code.mvc.entity.ItemOrderDetails;
+import com.code.mvc.entity.Users;
 import com.code.mvc.model.Cart;
 import com.code.mvc.model.CartCollection;
 import com.code.mvc.service.ICategoryService;
+import com.code.mvc.service.IItemOrderDetailsService;
+import com.code.mvc.service.IItemOrderService;
 import com.code.mvc.service.IItemService;
+import com.code.mvc.service.IUsersService;
 
 @Controller
 public class HomeController {
@@ -29,6 +39,12 @@ public class HomeController {
 	private ICategoryService iCategoryService;
 	@Autowired
 	private IItemService iItemService;
+	@Autowired
+	private IUsersService iUsersService;
+	@Autowired
+	private IItemOrderDetailsService iItemOrderDetailsService;
+	@Autowired
+	private IItemOrderService iItemOrderService;
 
 	@RequestMapping(value="/")
 	public ModelAndView test(Model model) throws IOException{
@@ -40,6 +56,19 @@ public class HomeController {
 		model.addAttribute("categories", categories);
 		model.addAttribute("items", items);
 		return new ModelAndView("home", "", model);
+	}
+	
+	//display the cart page for the cart icon
+	@RequestMapping("/item/cart/home")
+	public ModelAndView getCart(Model model, HttpSession session) {
+		CartCollection cartCollection = (CartCollection) session.getAttribute("cartCollection");
+		if (cartCollection == null) {
+			cartCollection = new CartCollection();
+		}
+		session.setAttribute("cartCollection", cartCollection);
+		model.addAttribute("carts", cartCollection.getAll());
+		model.addAttribute("totalAmount", cartCollection.getTotalAmount());
+		return new ModelAndView("carts", "", model);
 	}
 	
 	//request the cart by id
@@ -114,17 +143,81 @@ public class HomeController {
 		return new ModelAndView("login");
 	}
 	
+	@RequestMapping(value="/signup")
+	public ModelAndView signup(Model model) {
+		model.addAttribute("users", new Users());
+		return new ModelAndView("customerreg", "", model);
+	}
+	
+	@RequestMapping(value="/save1", method=RequestMethod.POST)
+	public ModelAndView save1Registration(@ModelAttribute("users") Users users,
+			@RequestParam CommonsMultipartFile imagefile, HttpSession session) {
+		//assume only upload one imagefile
+		if (imagefile != null) {
+			users.setImagedata(imagefile.getBytes());
+		}
+		//save the users
+		iUsersService.addUser(users);
+		// redirect to the dashboard
+		return new ModelAndView("redirect:/login");
+	}
+	
+	@RequestMapping("/checkout")
+	public ModelAndView checkout(HttpSession session) {
+		Users users =(Users) session.getAttribute("users");
+		if (users == null) {
+			return new ModelAndView("redirect:/login");
+		}
+		CartCollection cartCollection = (CartCollection) session.getAttribute("cartCollection");
+		if (cartCollection == null || cartCollection.getAll().size() == 0) {
+			return new ModelAndView("redirect:/");
+		}
+		List<Cart> carts = cartCollection.getAll();
+		ItemOrder itemOrder = new ItemOrder();
+		Date date = new Date();
+		itemOrder.setOrderDate(date.toString());
+		itemOrder.setTotalAmount(cartCollection.getTotalAmount());
+		itemOrder.setUsers(users);
+		//save itemOrder to the database
+		iItemOrderService.add(itemOrder);
+		ItemOrderDetails itemOrderDetails = null;
+		for (Cart cart: carts) {
+			itemOrderDetails = new ItemOrderDetails();
+			itemOrderDetails.setCategoryName(cart.getCategoryName());
+			itemOrderDetails.setItemOrder(itemOrder);
+			itemOrderDetails.setItemValue(cart.getAmount());
+			itemOrderDetails.setPrice(cart.getPrice());
+			itemOrderDetails.setProductName(cart.getItemName());
+			itemOrderDetails.setQty(cart.getQty());
+			//create the object and save to the database
+			iItemOrderDetailsService.add(itemOrderDetails);
+		}
+		//redirect to the invoice
+		return new ModelAndView("redirect:/invoice/" + itemOrder.getOrderId());
+	}
+	
+	@RequestMapping("/invoice/{id}")
+	public ModelAndView invoice(@PathVariable("id") int id, HttpSession session, Model model) {
+		ItemOrder itemOrder = iItemOrderService.getById(id);
+		if (itemOrder != null) {
+			List<ItemOrderDetails> itemOrderDetailsList = iItemOrderDetailsService.getByOrderId(id);
+			model.addAttribute("orders", itemOrder);
+			model.addAttribute("itemOrderDetailsList", itemOrderDetailsList);
+			return new ModelAndView("invoice", "", model);
+		}
+		return new ModelAndView("redirect:/");
+	}
+	
 	@RequestMapping("/authentication")
-	public ModelAndView loginAuthentication(HttpServletRequest request, Model model) {
+	public ModelAndView loginAuthentication(HttpServletRequest request, Model model, HttpSession session) {
 		//request has method getParameter(<name of form element> returns the value as string)
 		String username=request.getParameter("uname");
 		String password=request.getParameter("upass");
-		System.out.println("User Name: " + username);
-		System.out.println("Password: " + password);
-		//check user is admin password is 1234
-		if (username.equals("Admin") && password.equals("1234")) {
-			model.addAttribute("uname", username);
-			return new ModelAndView("dashboard", "", model);
+		//check users in the database by username and password
+		Users users = iUsersService.getUserAuthentication(username, password);
+		if (users != null && users.getRole().equals("Customer")) {
+			session.setAttribute("users", users);
+			return new ModelAndView("redirect:/item/cart/home");
 		}
 		String msg = "Invalid User name & Password";
 		model.addAttribute("errmsg", msg);

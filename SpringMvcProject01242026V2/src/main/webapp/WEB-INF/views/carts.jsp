@@ -8,9 +8,10 @@
 <!-- End of Home Header -->
 
 <!-- Home -->
-<div class="container-fluid top-header" style="background-color: #b80818">
+<!-- <div class="container-fluid top-header" style="background-color: #b80818">
   <div class="banner-section"></div>
-</div>
+</div> -->
+<div style="margin-top: 60px;"></div>
 <!-- ADV Section -->
 <div class="container-fluid main-section">
   <div class="container">
